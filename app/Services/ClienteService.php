@@ -2,52 +2,39 @@
 
 namespace App\Services;
 
-use App\Interfaces\ClienteInterface;
+use App\Interfaces\ClienteRepositoryInterface;
 
 class ClienteService
 {
-    public function __construct(
-        private ClienteInterface $clienteRepository
-    ) {}
+    protected $clienteRepository;
 
-    public function list()
+    public function __construct(ClienteRepositoryInterface $clienteRepository)
     {
-        return $this->clienteRepository->all();
+        $this->clienteRepository = $clienteRepository;
     }
 
-    public function show(int $id)
+    public function obtenerTodos()
     {
-        return $this->clienteRepository->find($id);
+        return $this->clienteRepository->getAll();
     }
 
-    public function store(array $data)
+    public function obtenerPorId($id)
+    {
+        return $this->clienteRepository->getById($id);
+    }
+
+    public function crear(array $data)
     {
         return $this->clienteRepository->create($data);
     }
 
-    public function update(int $id, array $data)
+    public function actualizar($id, array $data)
     {
         return $this->clienteRepository->update($id, $data);
     }
 
-    public function destroy(int $id)
+    public function eliminar($id)
     {
-        return $this->clienterRepoository->delete($id);
-    }
-
-    public function getByName (String $name)
-    {
-       return $this->clienterRepoository->getByName($name);
-    }
-
-    public function getByLastname (String $lastname)
-    {
-        return $this->clienterRepoository->getByLastname($lastname);
-    }
-
-    public function getByDocument (String $document)
-    {
-         return $this->clienterRepoository->getByDocument($document);
-             
+        return $this->clienteRepository->delete($id);
     }
 }
